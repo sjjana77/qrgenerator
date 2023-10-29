@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom QR Code Generator</title>
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <!-- Include Bootstrap CSS (you need to download and host it or use a CDN link) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .custom-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container custom-container">
+        <h2 class="text-center">Customized QR Generator</h2>
+        <div class="input-group mb-3">
+            <input type="text" id="qr-data" class="form-control" placeholder="Enter URL or text">
+        </div>
+        <div class="input-group mb-3">
+            <input type="file" id="qr-image-upload" class="form-control">
+        </div>
+        <div class="input-group mb-3">
+            <input type="color" id="qr-fill-color" value="#4267b2" class="form-control">
+        </div>
+        <div class="input-group mb-3">
+            <select id="qr-format" class="form-control">
+                <option value="svg">SVG</option>
+                <option value="png">PNG</option>
+                <option value="jpeg">JPEG</option>
+            </select>
+        </div>
+        <button id="generate-qr" class="btn btn-primary btn-block">Generate QR Code</button>
+        <button id="download-qr" class="btn btn-success btn-block">Download QR Code</button>
+        <br><br>
+    </div>
+    <div class="container custom-container">
+        <div id="canvas"></div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    const qrCode = new QRCodeStyling({
+        width: 300,
+        height: 300,
+        type: "svg",
+        dotsOptions: {
+            color: "#4267b2", // Default fill color
+            type: "rounded"
+        },
+        backgroundOptions: {
+            color: "#e9ebee",
+        },
+        imageOptions: {
+            crossOrigin: "anonymous",
+            margin: 20,
+            rounded: true,
+        }
+    });
+
+    document.getElementById("generate-qr").addEventListener("click", function () {
+        const qrData = document.getElementById("qr-data").value;
+        const qrImageUpload = document.getElementById("qr-image-upload");
+        const qrFillColor = document.getElementById("qr-fill-color").value;
+
+        qrCode.update({
+            data: qrData,
+            image: qrImageUpload.files[0] ? URL.createObjectURL(qrImageUpload.files[0]) : "",
+            dotsOptions: {
+                color: qrFillColor, // Update fill color based on user input
+                type: "rounded"
+            }
+        });
+
+        qrCode.append(document.getElementById("canvas"));
+    });
+
+    document.getElementById("download-qr").addEventListener("click", function () {
+        const selectedFormat = document.getElementById("qr-format").value;
+        qrCode.download({ name: "qr", extension: selectedFormat });
+    });
+</script>
+</html>
