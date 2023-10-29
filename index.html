@@ -9,14 +9,25 @@
         .custom-container {
             margin-top: 20px;
         }
+        @media (max-width: 576px) and (min-width: 106px) {
+            .custom-container {
+                padding: 0 !important;
+                margin: 5px !important;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container custom-container">
         <h2 class="text-center">Customized QR Generator</h2>
-        <div class="input-group mb-3">
-            <input type="text" id="qr-data" class="form-control" placeholder="Enter URL or text">
+        <div class="row">
+            <div class="col col-12 col-md-6 col-sm-12">
+                <div class="input-group mb-3">
+                    <input type="text" id="qr-data" class="form-control" placeholder="Enter URL or text">
+                </div>
+            </div>
         </div>
+        
         <div class="input-group mb-3">
             <input type="file" id="qr-image-upload" class="form-control">
         </div>
